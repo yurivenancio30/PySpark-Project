@@ -1,0 +1,21 @@
+templates:
+  default: &default
+    namespace: spark
+    missingFileHandler: Warn
+repositories:
+  - name: bedag
+    url: https://bedag.github.io/helm-charts
+  - name: spark-operator
+    url: https://googlecloudplatform.github.io/spark-on-k8s-operator
+releases:
+  - name: raw
+    chart: bedag/raw
+    <<: *default
+    values:
+      - ./raw-values.yaml
+  - name: spark-on-k8s-operator
+    chart: spark-operator/spark-operator
+    version: 1.1.27
+    <<: *default
+    values:
+      - ./spark-operator-values.yaml

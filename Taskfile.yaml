@@ -1,0 +1,6 @@
+version: 3
+tasks:
+  minikube:start: minikube start --nodes 3 --memory 30000 --cpus 12 --driver docker --listen-address='0.0.0.0'
+  minikube:delete:all: minikube delete --all
+  spark-jdbc-driver: wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-8.0.33.tar.gz
+  create:env: micromamba create -f spark.env.yaml -y

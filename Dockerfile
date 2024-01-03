@@ -3,8 +3,8 @@ USER root
 COPY ./jars/mysql-connector-j-8.0.33.jar /opt/bitnami/spark/jars/
 COPY ./jars/postgresql-42.6.0.jar /opt/bitnami/spark/jars/
 WORKDIR /opt/bitnami/spark/python/
-COPY pyspark_teste_copy.py ./
-RUN chmod +x pyspark_teste_copy.py
+COPY pyspark_project.py ./
+RUN chmod +x pyspark_project.py
 RUN pip install pyspark
 RUN pip install 'pandas < 2'
 RUN pip install pyarrow

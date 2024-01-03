@@ -1,0 +1,22 @@
+resources:
+  - apiVersion: v1
+    kind: Secret
+    metadata:
+      name: pyspark-project
+    stringData:
+      pyspark-project.json: |
+        { "user": "root", "password": "password" }
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: pyspark-project
+    data:
+      db-metadados.json: |
+        {
+          "type": "mysql",
+          "host_mysql": "insert_host",
+          "port": 3306,
+          "db": "spark",
+          "extra": { "characterEncoding": "utf8" },
+          "postgres_host": "insert_host"
+        }

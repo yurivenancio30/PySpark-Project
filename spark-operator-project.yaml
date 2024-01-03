@@ -1,0 +1,68 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: pyspark-pi-build-image-current-master
+  namespace: spark
+spec:
+  # sparkConf:
+  #   spark.kubernetes.authenticate.driver.serviceAccountName: spark
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  image: docker.io/yuri98/spark-image-bitnami:project
+  imagePullPolicy: Always
+  mainApplicationFile: local:///opt/bitnami/spark/python/pyspark_project.py
+  sparkVersion: "3.5.0"
+  restartPolicy:
+    type: OnFailure
+    onFailureRetries: 3
+    onFailureRetryInterval: 10
+    onSubmissionFailureRetries: 5
+    onSubmissionFailureRetryInterval: 2
+  driver:
+    cores: 1
+    coreLimit: "1200m"
+    memory: "2000m"
+    labels:
+      version: 3.5.0
+    env:
+      - name: SECRETS_DIR
+        value: /mnt/secrets
+      - name: DATA_DIR
+        value: /mnt/data-config-map
+      # - name: HTTP2_DISABLE #https://github.com/fabric8io/kubernetes-client/issues/2212#issuecomment-628434995
+      #   value: "true"
+    secrets:
+      - name: pyspark-project
+        path: /mnt/secrets
+        secretType: Generic
+    configMaps:
+      - name: pyspark-project
+        path: /mnt/data-config-map
+      # - name: prod-legacy-sql-incentive-me-query
+      #   path: /mnt/data-config-map
+    serviceAccount: spark-on-k8s-operator-spark
+  executor:
+    cores: 3
+    instances: 3
+    memory: "6000m"
+    labels:
+      version: 3.5.0
+    env:
+      - name: SECRETS_DIR
+        value: /mnt/secrets
+      - name: DATA_DIR
+        value: /mnt/data-config-map
+      # - name: HTTP2_DISABLE
+      #   value: "true"
+    secrets:
+      - name: pyspark-project
+        path: /mnt/secrets
+        secretType: Generic
+    configMaps:
+      - name: pyspark-project
+        path: /mnt/data-config-map
+    # serviceAccount:
+    #   spark-on-k8s-operator-spark-operator
+    # - name: prod-legacy-sql-incentive-me-query
+    #   path: /mnt/data-config-map
