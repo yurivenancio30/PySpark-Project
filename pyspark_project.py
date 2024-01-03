@@ -53,7 +53,7 @@ if __name__ == "__main__":
     # (select ps.id as id, ps.cpf, ps.cnpj, ps.quantity, ps.price, ps.saleDate from prod_icv_db.PreSale ps) as prevendas
     # """
     sql = """
-    (SELECT p.id id, p.name, p.age
+    (SELECT p.id, p.name, p.age
     FROM spark.person p) as person
     """
     jdbc = "jdbc:{type}://{host_mysql}:{port}/{db}?".format_map(uri_db) + "&".join(
