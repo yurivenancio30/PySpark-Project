@@ -17,10 +17,10 @@ if __name__ == "__main__":
         "spark.jars",
         "/opt/bitnami/spark/jars/mysql-connector-j-8.0.33.jar",
     )
-    conf.set(
-        "spark.sql.shuffle.partitions",
-        60,
-    )
+    # conf.set(
+    #     "spark.sql.shuffle.partitions",
+    #     60,
+    # )
     # conf.set(
     #     "spark.tasks.cpus",
     #     9,
@@ -29,16 +29,16 @@ if __name__ == "__main__":
         "spark.jars",
         "/opt/bitnami/spark/jars/postgresql-42.6.0.jar",
     )
-    conf.set(
-        "spark.driver.extraClassPath",
-        "/opt/bitnami/spark/jars/mysql-connector-j-8.0.33.jar",
-    )
+    # conf.set(
+    #     "spark.driver.extraClassPath",
+    #     "/opt/bitnami/spark/jars/mysql-connector-j-8.0.33.jar",
+    # )
     print(f"{conf.getAll()=}")
     print(f"{sys.argv=}")
 
     spark = (
         SparkSession.builder.appName("readsql")
-        .master("k8s://http://localhost:63097")
+        .master("k8s://http://localhost:insert_minikube_port")
         # .master("local[4]")
         .config(conf=conf)
         .getOrCreate()

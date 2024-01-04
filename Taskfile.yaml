@@ -4,3 +4,5 @@ tasks:
   minikube:delete:all: minikube delete --all
   spark-jdbc-driver: wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-8.0.33.tar.gz
   create:env: micromamba create -f spark.env.yaml -y
+  fake_data:mysql: python fake_data_to_mysql.py
+  apply:spark: kubectl apply -f spark-operator-project.yaml

@@ -12,12 +12,13 @@ conn = mysql.connector.connect(
 )
 cursor = conn.cursor()
 
-for i in range(1000000):
+for i in range(1, 10000001):
     row = [fake.first_name(), random.randint(0, 99)]
     cursor.execute(
         " INSERT INTO `person` (name, age) VALUES (%s, %s);",
         (row[0], row[1]),
     )
     print(f"{i}, {row}")
-
-conn.commit()
+    if i % 500000 == 0:
+        print("commit")
+        conn.commit()
