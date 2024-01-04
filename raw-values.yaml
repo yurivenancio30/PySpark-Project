@@ -5,7 +5,7 @@ resources:
       name: pyspark-project
     stringData:
       pyspark-project.json: |
-        { "user": "root", "password": "password" }
+        { "mysql":{"user": "root", "password": "password"}, "postgres": {"user": "postgres", "password":"password"} }
   - apiVersion: v1
     kind: ConfigMap
     metadata:

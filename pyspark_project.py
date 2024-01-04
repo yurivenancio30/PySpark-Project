@@ -47,6 +47,7 @@ if __name__ == "__main__":
     print(f"{spark.sparkContext=}")
 
     uri_db = json.load((DATA_DIR / "db-metadados.json").open())
+    env_screts = json.load((SECRETS_DIR / "pyspark-project.json").open())
 
     # sql = json.load((DATA_DIR / "-config-map").open()).get("query", {})
     # sql = """
@@ -59,7 +60,7 @@ if __name__ == "__main__":
     jdbc = "jdbc:{type}://{host_mysql}:{port}/{db}?".format_map(uri_db) + "&".join(
         f"{key}={value}"
         for key, value in dict(
-            **json.load((SECRETS_DIR / "pyspark-project.json").open()),
+            **env_screts.get("mysql", {}),
             **uri_db.get("extra", {}),
         ).items()
     )
@@ -89,8 +90,14 @@ if __name__ == "__main__":
     # df2 = df.to_spark()
     type(df)
     host_postgres = uri_db.get("postgres_host", {})
+    url_postgres = f"jdbc:postgresql://{host_postgres}:5432/postgres?" + "&".join(
+        f"{key}={value}"
+        for key, value in dict(
+            **env_screts.get("postgres", {}),
+        ).items()
+    )
     df.repartition(9).write.format("jdbc").options(
-        url=f"jdbc:postgresql://{host_postgres}:5432/postgres?user=postgres&password=password",
+        url=url_postgres,
         driver="org.postgresql.Driver",
         dbtable="sparkProject",
         # query="CREATE TABLE campanhasSpark AS select * from df2"
