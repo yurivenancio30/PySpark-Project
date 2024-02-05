@@ -1,4 +1,4 @@
-# Processando dados com o SparkOpeator no Minikube
+# Processando dados com o SparkOperator no Minikube
 
 ## Pré-requisitos
 
